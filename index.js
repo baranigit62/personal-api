@@ -31,12 +31,12 @@ const logSchema = new mongoose.Schema({
 
 const Log = mongoose.model('Log', logSchema);
 
-// Basit root testi
+// Kök test (tarayıcı için)
 app.get('/', (req, res) => {
   res.send('Personel API çalışıyor.');
 });
 
-// 🔥 ESP32 log gönderme endpoint’i (BUNA POST ATACAĞIZ)
+// 🔥 ESP32 log endpoint’i
 app.post('/log', async (req, res) => {
   try {
     const { uid, name, action, timestamp } = req.body;
@@ -57,13 +57,13 @@ app.post('/log', async (req, res) => {
   }
 });
 
-// 🔥 Test endpoint’i: kayıtları görmek için
+// 🔥 Son 50 kaydı listeleme
 app.get('/logs', async (req, res) => {
   const logs = await Log.find().sort({ createdAt: -1 }).limit(50);
   res.json(logs);
 });
 
-// 🔥 Render için PORT ayarı
+// 🔥 Render için PORT
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
